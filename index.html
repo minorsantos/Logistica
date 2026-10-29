@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Marshall • Event Logistics & Rentals</title>
+    <!-- Estilos de la plataforma -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Favicon SVG representativo -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+</head>
+<body>
+
+    <div class="app-layout">
+        <!-- ===============================================================
+             SIDEBAR IZQUIERDO DE NAVEGACIÓN
+             =============================================================== -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo-icon">🏛️</div>
+                <div class="brand-text">
+                    <h1>Casa Marshall</h1>
+                    <p>Event Logistics & Rentals</p>
+                </div>
+            </div>
+
+            <!-- Menú de Módulos con RBAC adaptable -->
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="sidebar-nav-item active" data-view="dashboard">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">📊</span>
+                        <span>Panel Ejecutivo</span>
+                    </div>
+                    <span class="nav-badge nav-badge-live">LIVE</span>
+                </a>
+
+                <a href="#solicitudes" class="sidebar-nav-item" data-view="solicitudes">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">📑</span>
+                        <span>Cotizador & Solicitudes</span>
+                    </div>
+                    <span class="nav-badge">14</span>
+                </a>
+
+                <a href="#reservas" class="sidebar-nav-item" data-view="reservas">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">📅</span>
+                        <span>Calendario de Reservas</span>
+                    </div>
+                    <span class="nav-badge">8</span>
+                </a>
+
+                <a href="#inventario" class="sidebar-nav-item" data-view="inventario">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">📦</span>
+                        <span>Control de Inventario</span>
+                    </div>
+                    <span class="nav-badge">1.2k</span>
+                </a>
+
+                <a href="#logistica" class="sidebar-nav-item" data-view="logistica">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">🚚</span>
+                        <span>Despacho & Rutas</span>
+                    </div>
+                    <span class="nav-badge">6</span>
+                </a>
+
+                <a href="#mantenimiento" class="sidebar-nav-item" data-view="mantenimiento">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">🔧</span>
+                        <span>Inspección & Taller</span>
+                    </div>
+                    <span class="nav-badge">3</span>
+                </a>
+
+                <a href="#pagos" class="sidebar-nav-item" data-view="pagos">
+                    <div class="nav-item-left">
+                        <span class="nav-icon">💳</span>
+                        <span>Facturación & Pagos</span>
+                    </div>
+                    <span class="nav-badge">9</span>
+                </a>
+            </nav>
+
+            <!-- Pie del Sidebar con Ubicación Activa y Versión -->
+            <div class="sidebar-footer">
+                <div class="location-status">
+                    <span class="text-success">● En línea</span> • UBICACIÓN ACTIVA
+                </div>
+                <div class="location-name">
+                    <span>🏢</span> Sede Central - Almacén Lurín
+                </div>
+                <div class="app-version-tag">
+                    <span>⚙️ Configuración v2.4.0-ent</span>
+                    <button class="btn-reset-data" onclick="AppRouter.resetDataToInitial()" title="Restablecer datos">Reset Mocks</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===============================================================
+             CONTENEDOR PRINCIPAL
+             =============================================================== -->
+        <div class="main-wrapper">
+            <!-- Barra Superior / Header Global -->
+            <header class="top-header">
+                <!-- Buscador Global -->
+                <div class="header-search-box">
+                    <span class="icon-search">🔍</span>
+                    <input type="text" id="global-search-input" placeholder="Buscar reservas, clientes, mobiliario o [Ctrl+K]">
+                    <span class="search-shortcut-badge">Ctrl+K</span>
+                </div>
+
+                <!-- Acciones Derechas: Operación rápida, Selector de Rol RBAC, Notificaciones y Perfil -->
+                <div class="header-actions-right">
+                    <!-- Dropdown Nueva Operación -->
+                    <div class="btn-operation-dropdown">
+                        <button class="btn btn-primary" id="btn-new-operation">
+                            + Nueva Operación ▾
+                        </button>
+                        <div class="quick-dropdown-menu" id="quick-operation-dropdown">
+                            <a class="quick-dropdown-item" onclick="AppRouter.navigate('solicitudes')">
+                                <span>📝</span> Nueva Solicitud de Evento
+                            </a>
+                            <a class="quick-dropdown-item" onclick="PagosModule.openRegisterPaymentModal()">
+                                <span>💳</span> Registrar Cobro (RN-09)
+                            </a>
+                            <a class="quick-dropdown-item" onclick="AppRouter.navigate('reservas')">
+                                <span>📅</span> Verificar Disponibilidad
+                            </a>
+                            <a class="quick-dropdown-item" onclick="SolicitudesModule.openNewClientModal()">
+                                <span>👤</span> Registrar Nuevo Cliente (RN-01)
+                            </a>
+                            <a class="quick-dropdown-item" onclick="LogisticaModule.openNewIncidenciaModal()">
+                                <span>⚠️</span> Registrar Incidencia en Ruta
+                            </a>
+                            <a class="quick-dropdown-item" onclick="MantenimientoModule.openQuickInspectionModal()">
+                                <span>🔍</span> Inspección Técnica Pos-Recojo (RN-06)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Selector de Rol RBAC para prueba de perfiles -->
+                    <div class="role-switcher-card" title="Cambie de rol para verificar la adaptación de interfaz">
+                        <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">ROL:</span>
+                        <select id="role-switcher-select"></select>
+                    </div>
+
+                    <!-- Notificaciones -->
+                    <button class="notification-bell-btn" title="Notificaciones operativas" onclick="AppRouter.navigate('dashboard')">
+                        🔔
+                        <span class="notif-count-badge">3</span>
+                    </button>
+
+                    <!-- Avatar y Nombre de Usuario Activo -->
+                    <div class="user-profile-widget">
+                        <img src="" id="header-user-avatar" alt="Avatar" class="user-avatar-img">
+                        <div class="user-info-text">
+                            <strong id="header-user-name">Valeria Mendoza</strong>
+                            <small id="header-user-role">Jefa de Operaciones</small>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Área de Contenido Dinámico según Módulo -->
+            <main class="content-area" id="module-content-area">
+                <!-- Se inyecta dinámicamente con JavaScript -->
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts en orden de dependencia modular -->
+    <script src="js/data.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/dashboard.js"></script>
+    <script src="js/modules/solicitudes.js"></script>
+    <script src="js/modules/reservas.js"></script>
+    <script src="js/modules/inventario.js"></script>
+    <script src="js/modules/logistica.js"></script>
+    <script src="js/modules/mantenimiento.js"></script>
+    <script src="js/modules/pagos.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
