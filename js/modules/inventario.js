@@ -467,8 +467,8 @@ class InventarioModule {
                 <h3 class="mt-3">${art.nombre} (${art.sku})</h3>
                 <p><strong>Categoría:</strong> ${art.categoriaNombre}</p>
                 <p><strong>Ubicación Almacén:</strong> ${art.ubicacion}</p>
-                <p><strong>Tarifa Diaria:</strong> $${art.tarifaDiaria.toFixed(2)} USD</p>
-                <p><strong>Valor de Reposición (Merma):</strong> $${art.valorReposicion.toFixed(2)} USD</p>
+                <p><strong>Tarifa Diaria:</strong> S/ ${art.tarifaDiaria.toFixed(2)}</p>
+                <p><strong>Valor de Reposición (Merma):</strong> S/ ${art.valorReposicion.toFixed(2)}</p>
                 <p><strong>Especificaciones:</strong> ${art.specs || 'N/A'}</p>
                 <p><strong>Descripción de Mantenimiento:</strong> Revisión de tornillería, pulido de barniz y lavado textil pos-evento.</p>
             </div>

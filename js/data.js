@@ -98,7 +98,7 @@ const INITIAL_USUARIOS = [
 ];
 
 // -----------------------------------------------------------------------------
-// 2. CLIENTES REGISTRADOS (RN-01: Registro Mandatorio previo a solicitudes)
+// 2. CLIENTES REGISTRADOS
 // -----------------------------------------------------------------------------
 const INITIAL_CLIENTES = [
     {
@@ -552,7 +552,7 @@ const INITIAL_COTIZACIONES = [
 ];
 
 // -----------------------------------------------------------------------------
-// 5. RESERVAS Y ÓRDENES DE DESPACHO (MÓDULO 2 - RN-02, RN-03)
+// 5. RESERVAS Y ÓRDENES DE DESPACHO (MÓDULO 2)
 // -----------------------------------------------------------------------------
 const INITIAL_RESERVAS = [
     {
@@ -613,7 +613,7 @@ const INITIAL_RESERVAS = [
 ];
 
 // -----------------------------------------------------------------------------
-// 6. RUTAS DE DESPACHO Y RECOJO (MÓDULO 4 - RN-05: Responsable de Recepción)
+// 6. RUTAS DE DESPACHO Y RECOJO (MÓDULO 4)
 // -----------------------------------------------------------------------------
 const INITIAL_DESPACHOS = [
     {
@@ -691,7 +691,7 @@ const INITIAL_INCIDENCIAS = [
 ];
 
 // -----------------------------------------------------------------------------
-// 7. INSPECCIÓN Y MANTENIMIENTO (MÓDULO 5 - RN-06: Revisión y Taller)
+// 7. INSPECCIÓN Y MANTENIMIENTO (MÓDULO 5)
 // -----------------------------------------------------------------------------
 const INITIAL_MANTENIMIENTO = [
     {
@@ -769,7 +769,7 @@ const INITIAL_ABASTECIMIENTO = [
 ];
 
 // -----------------------------------------------------------------------------
-// 9. PAGOS Y COMPROBANTES (MÓDULO 6 - RN-09: Trazabilidad por Reserva)
+// 9. PAGOS Y COMPROBANTES (MÓDULO 6)
 // -----------------------------------------------------------------------------
 const INITIAL_PAGOS = [
     {

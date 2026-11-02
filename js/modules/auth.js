@@ -1,6 +1,6 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
- * js/modules/auth.js - Control de Acceso Basado en Roles (RBAC) y Permisos (RN-07)
+ * js/modules/auth.js - Control de Acceso Basado en Roles (RBAC) y Permisos
  */
 
 const ROLES_PERMISOS = {

@@ -77,7 +77,7 @@ class DashboardModule {
                         <span class="kpi-unit">por aprobar</span>
                     </div>
                     <div class="kpi-amount-sub">
-                        Valor en cartera: <strong>$42,850 USD</strong>
+                        Valor en cartera: <strong>S/ 42,850</strong>
                     </div>
                     <div class="kpi-footnote text-danger">
                         ● 4 urgentes (&lt;24h)
@@ -237,7 +237,7 @@ class DashboardModule {
                             <span class="feed-time">Hace 2h</span>
                         </div>
                         <p class="feed-title">Matrimonio Barrenechea reportó 2 sillas Tiffany con daño menor.</p>
-                        <p class="feed-desc">Ingresadas a taller #T-104. Fianza retenida: <strong>$120.00 USD</strong>.</p>
+                        <p class="feed-desc">Ingresadas a taller #T-104. Fianza retenida: <strong>S/ 120.00</strong>.</p>
                         <div class="feed-actions">
                             <button class="btn btn-xs btn-dark" onclick="AppRouter.navigate('mantenimiento')">Abrir Ficha Taller</button>
                         </div>
@@ -249,7 +249,7 @@ class DashboardModule {
                             <span class="feed-badge badge-success-tag">COBRANZA EXITOSA</span>
                             <span class="feed-time">11:42 AM</span>
                         </div>
-                        <p class="feed-title">Factura F001-0892 adelantó 50% ($4,500) para Boda Las Palmeras.</p>
+                        <p class="feed-title">Factura F001-0892 adelantó 50% (S/ 4,500) para Boda Las Palmeras.</p>
                         <p class="feed-desc">Pago verificado vía BCP Transferencia por Finanzas.</p>
                         <div class="feed-actions">
                             <button class="btn btn-xs btn-outline" onclick="AppRouter.navigate('pagos')">Ver Recibo</button>
@@ -335,7 +335,7 @@ class DashboardModule {
                     <div class="text-muted"><small>${s.dias} día(s) • Despacho: ${s.horaMontaje}</small></div>
                 </td>
                 <td>
-                    <strong>$${s.totalCotizado.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                    <strong>S/ ${s.totalCotizado.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
                 </td>
                 <td>
                     <span class="badge-status ${s.estado === 'Aprobado' ? 'badge-success' : (s.estado === 'En Ruta' ? 'badge-primary' : 'badge-warning')}">

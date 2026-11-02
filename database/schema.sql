@@ -49,7 +49,7 @@ CREATE TABLE usuarios (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Usuarios del sistema con roles RBAC';
 
 -- ------------------------------------------------------------------------------
--- 2. TABLA: clientes (RN-01: Todo cliente debe estar registrado previamente)
+-- 2. TABLA: clientes (Registro previo de clientes)
 -- ------------------------------------------------------------------------------
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,7 +101,7 @@ CREATE TABLE articulos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Catálogo maestro de flota y mobiliario';
 
 -- ------------------------------------------------------------------------------
--- 5. TABLA: inventario_estado (RN-04: Trazabilidad en tiempo real de unidades)
+-- 5. TABLA: inventario_estado (Trazabilidad en tiempo real de unidades)
 -- ------------------------------------------------------------------------------
 CREATE TABLE inventario_estado (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -184,7 +184,7 @@ CREATE TABLE detalle_cotizacion (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Desglose de mobiliario por cotización';
 
 -- ------------------------------------------------------------------------------
--- 9. TABLA: reservas (CUS-02 / RN-02, RN-03: Disponibilidad y Pago Inicial)
+-- 9. TABLA: reservas (CUS-02: Disponibilidad y Pago Inicial)
 -- ------------------------------------------------------------------------------
 CREATE TABLE reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -237,7 +237,7 @@ CREATE TABLE despachos_rutas (
     fecha_retorno_programada DATETIME NOT NULL,
     fecha_entrega_real DATETIME DEFAULT NULL,
     fecha_recojo_real DATETIME DEFAULT NULL,
-    responsable_recepcion VARCHAR(120) DEFAULT NULL COMMENT='RN-05: Nombre del responsable de recepción en sitio',
+    responsable_recepcion VARCHAR(120) DEFAULT NULL COMMENT='Nombre del responsable de recepción en sitio',
     dni_responsable_recepcion VARCHAR(20) DEFAULT NULL,
     firma_digital_recepcion TEXT DEFAULT NULL,
     acta_entrega_firmada BOOLEAN DEFAULT FALSE,
@@ -265,7 +265,7 @@ CREATE TABLE incidencias_transporte (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Registro de incidencias en ruta o entrega';
 
 -- ------------------------------------------------------------------------------
--- 13. TABLA: inspecciones_mantenimiento (CUS-05 / RN-06: Revisión y Taller)
+-- 13. TABLA: inspecciones_mantenimiento (CUS-05: Revisión y Taller)
 -- ------------------------------------------------------------------------------
 CREATE TABLE inspecciones_mantenimiento (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -308,12 +308,12 @@ CREATE TABLE abastecimiento_proveedores (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Órdenes de compra y abastecimiento externo';
 
 -- ------------------------------------------------------------------------------
--- 15. TABLA: pagos (CUS-06 / RN-09: Trazabilidad y Comprobantes)
+-- 15. TABLA: pagos (CUS-06: Trazabilidad y Comprobantes)
 -- ------------------------------------------------------------------------------
 CREATE TABLE pagos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     codigo_pago VARCHAR(30) NOT NULL UNIQUE COMMENT='Ej: #PAG-2024-391',
-    reserva_id INT NOT NULL COMMENT='RN-09: Todo pago debe estar asociado unívocamente a una reserva',
+    reserva_id INT NOT NULL COMMENT='Todo pago debe estar asociado unívocamente a una reserva',
     cliente_id INT NOT NULL,
     tipo_pago ENUM('anticipo_50', 'saldo_restante', 'deposito_garantia', 'cobro_danos_fianza', 'reembolso_garantia') NOT NULL,
     monto DECIMAL(12, 2) NOT NULL,

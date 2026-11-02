@@ -1,7 +1,7 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
  * js/modules/solicitudes.js - MÓDULO 1: Solicitudes y Cotizaciones (CUS-01 / RF-01 a RF-07)
- * Implementa RN-01 (Registro previo de cliente), cotizador reactivo en vivo y cambio de estados.
+ * Registro de cliente, cotizador reactivo en vivo y cambio de estados.
  */
 
 class SolicitudesModule {
@@ -55,7 +55,7 @@ class SolicitudesModule {
                             <i class="icon-edit">✎</i> Editar Datos Generales
                         </button>
                         <button class="btn btn-outline btn-sm" onclick="SolicitudesModule.openNewClientModal()">
-                            <i class="icon-plus">+</i> Nuevo Cliente (RN-01)
+                            <i class="icon-plus">+</i> Nuevo Cliente
                         </button>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ class SolicitudesModule {
                 <div class="section-card-header">
                     <div>
                         <h4 class="section-card-title">Historial de Cotizaciones y Solicitudes</h4>
-                        <p class="section-card-subtitle">Control de estados: Pendiente, Aceptada, Rechazada y conversión a Reserva (RN-02)</p>
+                        <p class="section-card-subtitle">Control de estados: Pendiente, Aceptada, Rechazada y conversión a Reserva</p>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -197,8 +197,8 @@ class SolicitudesModule {
                                     <td>${c.clienteNombre}</td>
                                     <td>${c.eventoNombre || 'Evento General'}</td>
                                     <td>${c.fechaInicio} al ${c.fechaFin}</td>
-                                    <td><strong>$${(c.totalEstimado || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong></td>
-                                    <td><span class="text-success">$${(c.anticipoMonto || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</span></td>
+                                    <td><strong>S/ ${(c.totalEstimado || 0).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong></td>
+                                    <td><span class="text-success">S/ ${(c.anticipoMonto || 0).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</span></td>
                                     <td>
                                         <span class="badge-status ${c.estado === 'Aceptada por Cliente' ? 'badge-success' : (c.estado === 'Rechazada' ? 'badge-danger' : 'badge-warning')}">
                                             ${c.estado}
@@ -263,7 +263,7 @@ class SolicitudesModule {
                         <p class="card-desc">${item.descripcion}</p>
                         <div class="card-price-row">
                             <span class="card-rate-label">TARIFA DIARIA</span>
-                            <span class="card-price"><strong>$${item.tarifaDiaria.toFixed(2)}</strong> <small>/ día</small></span>
+                            <span class="card-price"><strong>S/ ${item.tarifaDiaria.toFixed(2)}</strong> <small>/ día</small></span>
                         </div>
                         <div class="card-action-row">
                             <div class="qty-control">
@@ -298,11 +298,11 @@ class SolicitudesModule {
                     <div class="selected-item-info">
                         <div class="selected-item-title">${item.nombre}</div>
                         <div class="selected-item-calc">
-                            ${item.cantidad} unid • $${item.tarifaDiaria.toFixed(2)}/día • ${item.dias}d
+                            ${item.cantidad} unid • S/ ${item.tarifaDiaria.toFixed(2)}/día • ${item.dias}d
                         </div>
                     </div>
                     <div class="selected-item-subtotal">
-                        $${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        S/ ${subtotal.toLocaleString('es-PE', { minimumFractionDigits: 2 })}
                     </div>
                     <button class="btn-remove-item" onclick="SolicitudesModule.removeItem(${item.articuloId})" title="Quitar">×</button>
                 </div>
@@ -337,31 +337,31 @@ class SolicitudesModule {
         return `
             <div class="breakdown-row">
                 <span>Subtotal Alquiler Mobiliario:</span>
-                <strong>$${totals.subtotalMobiliario.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                <strong>S/ ${totals.subtotalMobiliario.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
             </div>
             <div class="breakdown-row">
                 <span>Transporte & Montaje (Lurín): <i class="info-bubble" title="Calculado por zona y kilometraje">ℹ</i></span>
-                <strong>$${totals.transporteMontaje.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                <strong>S/ ${totals.transporteMontaje.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
             </div>
             <div class="breakdown-row">
                 <span>Depósito de Garantía (20%): <span class="tag-refundable">Reembolsable</span></span>
-                <strong>$${totals.garantia.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                <strong>S/ ${totals.garantia.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
             </div>
             <div class="breakdown-row">
                 <span>I.G.V. / Impuestos (18%):</span>
-                <strong>$${totals.igv.toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                <strong>S/ ${totals.igv.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
             </div>
             <div class="breakdown-total-row">
                 <div>
                     <div class="total-label">TOTAL GENERAL ESTIMADO</div>
                     <small class="total-hint">Incluye seguro e impuestos de ley</small>
                 </div>
-                <div class="total-amount">$${totals.total.toLocaleString('en-US', { minimumFractionDigits: 2 })} <small>USD</small></div>
+                <div class="total-amount">S/ ${totals.total.toLocaleString('es-PE', { minimumFractionDigits: 2 })} <small>PEN</small></div>
             </div>
             <div class="anticipo-switch-box">
                 <div class="switch-info">
                     <strong>Anticipo Requerido (50%):</strong>
-                    <span class="text-success">$${totals.anticipo50.toLocaleString('en-US', { minimumFractionDigits: 2 })} para bloqueo de stock</span>
+                    <span class="text-success">S/ ${totals.anticipo50.toLocaleString('es-PE', { minimumFractionDigits: 2 })} para bloqueo de stock</span>
                 </div>
                 <label class="toggle-switch">
                     <input type="checkbox" checked disabled>
@@ -517,7 +517,7 @@ class SolicitudesModule {
                             <th>Cant.</th>
                             <th>Tarifa Diaria</th>
                             <th>Días</th>
-                            <th>Total USD</th>
+                            <th>Total (S/)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -526,21 +526,21 @@ class SolicitudesModule {
                                 <td>${i.sku}</td>
                                 <td>${i.nombre}</td>
                                 <td>${i.cantidad}</td>
-                                <td>$${i.tarifaDiaria.toFixed(2)}</td>
+                                <td>S/ ${i.tarifaDiaria.toFixed(2)}</td>
                                 <td>${i.dias}</td>
-                                <td>$${(i.cantidad * i.tarifaDiaria * i.dias).toFixed(2)}</td>
+                                <td>S/ ${(i.cantidad * i.tarifaDiaria * i.dias).toFixed(2)}</td>
                             </tr>
                         `).join('')}
                     </tbody>
                 </table>
 
                 <div class="print-totals-summary">
-                    <p>Subtotal Alquiler: <strong>$${totals.subtotalMobiliario.toFixed(2)}</strong></p>
-                    <p>Transporte & Montaje Lurín: <strong>$${totals.transporteMontaje.toFixed(2)}</strong></p>
-                    <p>Garantía Reembolsable (20%): <strong>$${totals.garantia.toFixed(2)}</strong></p>
-                    <p>IGV (18%): <strong>$${totals.igv.toFixed(2)}</strong></p>
-                    <h3 class="print-grand-total">TOTAL: $${totals.total.toFixed(2)} USD</h3>
-                    <p class="text-success"><strong>Anticipo para Bloqueo (50%): $${totals.anticipo50.toFixed(2)}</strong></p>
+                    <p>Subtotal Alquiler: <strong>S/ ${totals.subtotalMobiliario.toFixed(2)}</strong></p>
+                    <p>Transporte & Montaje Lurín: <strong>S/ ${totals.transporteMontaje.toFixed(2)}</strong></p>
+                    <p>Garantía Reembolsable (20%): <strong>S/ ${totals.garantia.toFixed(2)}</strong></p>
+                    <p>IGV (18%): <strong>S/ ${totals.igv.toFixed(2)}</strong></p>
+                    <h3 class="print-grand-total">TOTAL: S/ ${totals.total.toFixed(2)}</h3>
+                    <p class="text-success"><strong>Anticipo para Bloqueo (50%): S/ ${totals.anticipo50.toFixed(2)}</strong></p>
                 </div>
             </div>
         `;
@@ -572,12 +572,12 @@ class SolicitudesModule {
                 <h4>Cotización ${cot.codigo}</h4>
                 <p><strong>Cliente:</strong> ${cot.clienteNombre}</p>
                 <p><strong>Evento:</strong> ${cot.eventoNombre || 'Evento Particular'}</p>
-                <p><strong>Total Estimado:</strong> $${(cot.totalEstimado || 0).toFixed(2)}</p>
-                <p><strong>Anticipo 50%:</strong> $${(cot.anticipoMonto || 0).toFixed(2)}</p>
+                <p><strong>Total Estimado:</strong> S/ ${(cot.totalEstimado || 0).toFixed(2)}</p>
+                <p><strong>Anticipo 50%:</strong> S/ ${(cot.anticipoMonto || 0).toFixed(2)}</p>
                 <p><strong>Estado Actual:</strong> <span class="badge-status badge-success">${cot.estado}</span></p>
                 <h5 class="mt-3">Mobiliario Solicitado:</h5>
                 <ul>
-                    ${(cot.items || []).map(i => `<li>${i.cantidad}x ${i.nombre} (${i.sku}) - $${i.subtotal ? i.subtotal.toFixed(2) : ''}</li>`).join('')}
+                    ${(cot.items || []).map(i => `<li>${i.cantidad}x ${i.nombre} (${i.sku}) - S/ ${i.subtotal ? i.subtotal.toFixed(2) : ''}</li>`).join('')}
                 </ul>
             </div>
         `;
@@ -626,12 +626,12 @@ class SolicitudesModule {
                     <input type="text" id="nc-direccion" class="form-control" placeholder="Av. Pardo 830, Miraflores, Lima" required>
                 </div>
                 <div class="modal-footer-btns mt-3">
-                    <button type="submit" class="btn btn-primary">Registrar Cliente (RN-01)</button>
+                    <button type="submit" class="btn btn-primary">Registrar Cliente</button>
                 </div>
             </form>
         `;
 
-        Modal.open('Registrar Nuevo Cliente (RN-01 Obligatoria)', formHtml);
+        Modal.open('Registrar Nuevo Cliente', formHtml);
     }
 
     static saveNewClient(event) {
@@ -669,7 +669,7 @@ class SolicitudesModule {
         StorageManager.set(STORAGE_KEYS.CLIENTES, clientes);
 
         Modal.close();
-        Toast.success(`Cliente "${razonSocial}" registrado exitosamente según RN-01.`);
+        Toast.success(`Cliente "${razonSocial}" registrado exitosamente.`);
     }
 
     static openEditEventModal() {

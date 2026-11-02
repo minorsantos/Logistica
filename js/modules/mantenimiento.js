@@ -1,7 +1,7 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
  * js/modules/mantenimiento.js - MÓDULO 5: Revisión y Mantenimiento de Artículos (CUS-05 / RF-29 a RF-35)
- * Implementa RN-06 (Artículos devueltos pasan a 'En Revisión') y RN-04 (Actualización automática de stock en liberación o baja).
+ * Inspección pos-recojo, control de calidad, fichas técnicas y actualización automática de stock.
  */
 
 class MantenimientoModule {
@@ -39,7 +39,7 @@ class MantenimientoModule {
                     </div>
                     <div class="header-action-buttons">
                         <button class="btn btn-outline" onclick="MantenimientoModule.openQuickInspectionModal()">
-                            🔍 Registrar Inspección Pos-Recojo (RN-06)
+                            🔍 Registrar Inspección Pos-Recojo
                         </button>
                         <button class="btn btn-primary" onclick="MantenimientoModule.openNewFichaModal()">
                             + Emitir Ficha de Taller (#T)
@@ -51,7 +51,7 @@ class MantenimientoModule {
             <!-- KPIs de Mantenimiento -->
             <div class="kpi-cards-grid-4">
                 <div class="kpi-metric-card">
-                    <span class="kpi-label">En Revisión Pos-Recojo (RN-06)</span>
+                    <span class="kpi-label">En Revisión Pos-Recojo</span>
                     <div class="kpi-number-row">
                         <span class="kpi-main-number">${enRevision}</span>
                         <span class="kpi-unit">lotes</span>
@@ -80,18 +80,18 @@ class MantenimientoModule {
                 <div class="kpi-metric-card">
                     <span class="kpi-label">Fianza Retenida por Daños</span>
                     <div class="kpi-number-row">
-                        <span class="kpi-main-number">$${totalFianza.toFixed(2)}</span>
-                        <span class="kpi-unit">USD</span>
+                        <span class="kpi-main-number">S/ ${totalFianza.toFixed(2)}</span>
+                        <span class="kpi-unit">PEN</span>
                     </div>
                     <div class="kpi-footnote text-danger">● Aplicado contra depósitos de garantía</div>
                 </div>
             </div>
 
-            <!-- Banner Informativo Regla RN-06 -->
+            <!-- Banner Informativo Inspección -->
             <div class="alert-box-info mt-3">
                 <div class="alert-icon">🛡️</div>
                 <div class="alert-content">
-                    <strong>Cumplimiento de la Regla de Negocio RN-06:</strong>
+                    <strong>Protocolo de Control de Calidad:</strong>
                     Todo artículo retornado de un evento ingresa automáticamente al área de <em>"En Revisión"</em> 
                     para chequeo estético y estructural. Ningún artículo puede volver a ser cotizado o reservado sin la firma técnica de liberación.
                 </div>
@@ -165,8 +165,8 @@ class MantenimientoModule {
                     </span>
                 </td>
                 <td>
-                    <strong class="text-danger">$${(m.fianzaRetenida || 0).toFixed(2)}</strong>
-                    <div class="text-muted"><small>Costo: $${(m.costoReparacion || 0).toFixed(2)}</small></div>
+                    <strong class="text-danger">S/ ${(m.fianzaRetenida || 0).toFixed(2)}</strong>
+                    <div class="text-muted"><small>Costo: S/ ${(m.costoReparacion || 0).toFixed(2)}</small></div>
                 </td>
                 <td>
                     <span class="badge-status ${m.estado === 'reparado_operativo' ? 'badge-success' : (m.estado === 'en_taller' ? 'badge-primary' : 'badge-warning')}">
@@ -176,7 +176,7 @@ class MantenimientoModule {
                 <td>
                     <div class="action-btn-group">
                         ${m.estado !== 'reparado_operativo' ? `
-                            <button class="btn btn-xs btn-success" onclick="MantenimientoModule.liberarADisponible('${m.codigoFicha}')" title="Liberar a Disponible (RN-04)">
+                            <button class="btn btn-xs btn-success" onclick="MantenimientoModule.liberarADisponible('${m.codigoFicha}')" title="Liberar a Disponible">
                                 ✓ Liberar Disponible
                             </button>
                             <button class="btn btn-xs btn-danger" onclick="MantenimientoModule.darDeBaja('${m.codigoFicha}')" title="Declarar No Reparable (Baja)">
@@ -206,7 +206,7 @@ class MantenimientoModule {
 
         if (!ficha) return;
 
-        // RN-04: Actualizar stock de artículos: restar de taller y sumar a disponible
+        // Actualizar stock de artículos: restar de taller y sumar a disponible
         const art = articulos.find(a => a.sku === ficha.articuloSku);
         if (art) {
             art.enTaller = Math.max(0, (art.enTaller || 0) - ficha.cantidadAfectada);
@@ -218,7 +218,7 @@ class MantenimientoModule {
         ficha.fechaSalida = new Date().toISOString().replace('T', ' ').substring(0, 16);
         StorageManager.set(STORAGE_KEYS.MANTENIMIENTO, mantenimiento);
 
-        Toast.success(`✓ Ficha ${codigoFicha} liberada. ${ficha.cantidadAfectada} unidad(es) de ${ficha.articuloNombre} reincorporadas a "Disponibles" (RN-04).`);
+        Toast.success(`✓ Ficha ${codigoFicha} liberada. ${ficha.cantidadAfectada} unidad(es) de ${ficha.articuloNombre} reincorporadas a "Disponibles".`);
         this.render();
     }
 
@@ -229,7 +229,7 @@ class MantenimientoModule {
 
         if (!ficha) return;
 
-        // RN-04: Actualizar stock: restar de taller y sumar a deBaja
+        // Actualizar stock: restar de taller y sumar a deBaja
         const art = articulos.find(a => a.sku === ficha.articuloSku);
         if (art) {
             art.enTaller = Math.max(0, (art.enTaller || 0) - ficha.cantidadAfectada);
@@ -251,7 +251,7 @@ class MantenimientoModule {
         const formHtml = `
             <form onsubmit="MantenimientoModule.saveInspection(event)">
                 <div class="alert-box-warning mb-3">
-                    <strong>RN-06:</strong> Ingrese el resultado de la inspección técnica de los artículos retornados.
+                    <strong>Protocolo:</strong> Ingrese el resultado de la inspección técnica de los artículos retornados.
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group">
@@ -284,11 +284,11 @@ class MantenimientoModule {
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label>Monto Fianza a Retener (USD) *</label>
+                        <label>Monto Fianza a Retener (S/) *</label>
                         <input type="number" step="0.01" id="insp-fianza" class="form-control" value="65.00" required>
                     </div>
                     <div class="form-group">
-                        <label>Costo Estimado de Reparación (USD)</label>
+                        <label>Costo Estimado de Reparación (S/)</label>
                         <input type="number" step="0.01" id="insp-costo" class="form-control" value="45.00" required>
                     </div>
                 </div>
@@ -297,12 +297,12 @@ class MantenimientoModule {
                     <textarea id="insp-diag" class="form-control" rows="2" placeholder="Detalle el daño encontrado y piezas a sustituir..." required></textarea>
                 </div>
                 <div class="modal-footer-btns mt-3">
-                    <button type="submit" class="btn btn-primary btn-block">Emitir Ficha de Taller y Actualizar Inventario (RN-04/RN-06)</button>
+                    <button type="submit" class="btn btn-primary btn-block">Emitir Ficha de Taller y Actualizar Inventario</button>
                 </div>
             </form>
         `;
 
-        Modal.open('Inspección Pos-Recojo y Apertura de Ficha Técnica (RN-06)', formHtml);
+        Modal.open('Inspección Pos-Recojo y Apertura de Ficha Técnica', formHtml);
     }
 
     static saveInspection(event) {
@@ -321,7 +321,7 @@ class MantenimientoModule {
         const res = reservas.find(r => r.codigoReserva === reservaCodigo);
         const currentUser = StorageManager.getCurrentUser();
 
-        // Actualizar inventario (RN-04): sumar a enTaller
+        // Actualizar inventario: sumar a enTaller
         if (art) {
             art.enTaller = (art.enTaller || 0) + qty;
             art.disponibles = Math.max(0, (art.disponibles || 0) - qty);
@@ -382,7 +382,7 @@ class MantenimientoModule {
                     <p><strong>Artículo:</strong> ${f.articuloNombre} (${f.articuloSku}) • Cantidad: ${f.cantidadAfectada} und</p>
                     <p><strong>Nivel Severidad:</strong> ${f.nivelSeveridad.toUpperCase()}</p>
                     <p><strong>Diagnóstico:</strong> ${f.diagnostico}</p>
-                    <p class="text-danger"><strong>Fianza Aplicada al Depósito:</strong> $${(f.fianzaRetenida || 0).toFixed(2)} USD</p>
+                    <p class="text-danger"><strong>Fianza Aplicada al Depósito:</strong> S/ ${(f.fianzaRetenida || 0).toFixed(2)}</p>
                 </div>
 
                 <div class="dispatch-signature-box mt-4">

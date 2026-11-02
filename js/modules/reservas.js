@@ -1,7 +1,7 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
  * js/modules/reservas.js - MÓDULO 2: Gestión de Reservas y Disponibilidad de Flota (CUS-02 / RF-08 a RF-13)
- * Implementa RN-02 (Validación estricta de stock), RN-03 (Confirmación con pago inicial y bloqueo) y mitigación de sobreventa.
+ * Validación estricta de stock, confirmación con pago inicial y mitigación de sobreventa.
  */
 
 class ReservasModule {
@@ -240,9 +240,9 @@ class ReservasModule {
                         </div>
                     </div>
 
-                    <!-- Validación Financiera (RN-03) -->
+                    <!-- Validación Financiera -->
                     <div class="approval-section-box">
-                        <div class="sec-label">VALIDACIÓN FINANCIERA (RN-03)</div>
+                        <div class="sec-label">VALIDACIÓN FINANCIERA</div>
                         <div class="financial-validation-card">
                             <div class="fin-text-col">
                                 <span class="fin-tag-green">50% Confirmado en Banco</span>
@@ -251,7 +251,7 @@ class ReservasModule {
                             </div>
                             <div class="fin-amount-col">
                                 <span class="fin-amount-label">Monto Abonado</span>
-                                <span class="fin-amount-val">$3,200.00</span>
+                                <span class="fin-amount-val">S/ 3,200.00</span>
                             </div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@ class ReservasModule {
                         </div>
                     </div>
 
-                    <!-- Botón Principal de Bloqueo / Emisión (RN-02, RN-03) -->
+                    <!-- Botón Principal de Bloqueo / Emisión -->
                     <div class="approval-actions-block">
                         <button class="btn ${this.orderLocked ? 'btn-locked' : 'btn-lock-inventory'} btn-block" 
                             onclick="ReservasModule.lockInventoryAndGenerateOrder()">
@@ -354,7 +354,7 @@ class ReservasModule {
                             </div>
                         </div>
                         <p class="opt-body">
-                            Subcontratar 1 und con <strong>Rental Express S.A.C.</strong> Tarifa negociada B2B: $480.00 / día.
+                            Subcontratar 1 und con <strong>Rental Express S.A.C.</strong> Tarifa negociada B2B: S/ 480.00 / día.
                         </p>
                         <button class="btn btn-outline-primary btn-sm" onclick="ReservasModule.applySubcontractMitigation()">
                             ${this.mitigationApplied ? '✓ Contrato B2B Activado' : 'Gestionar Contrato →'}
@@ -455,7 +455,7 @@ class ReservasModule {
 
     static applySubcontractMitigation() {
         this.mitigationApplied = true;
-        Toast.success('✓ Mitigación aplicada: Se reservó 1 Toldo 15×30m con Rental Express S.A.C. por $480/día. Conflicto de stock resuelto.');
+        Toast.success('✓ Mitigación aplicada: Se reservó 1 Toldo 15×30m con Rental Express S.A.C. por S/ 480/día. Conflicto de stock resuelto.');
         this.render();
     }
 
@@ -473,7 +473,7 @@ class ReservasModule {
             return;
         }
 
-        // RN-02 y RN-03: Validar que existe el pago del anticipo antes de confirmar la reserva
+        // Validar que existe el pago del anticipo antes de confirmar la reserva
         const reservas = StorageManager.get(STORAGE_KEYS.RESERVAS);
         const targetRes = reservas.find(r => r.codigoReserva === '#RES-2024-0884');
 
@@ -484,7 +484,7 @@ class ReservasModule {
         }
 
         this.orderLocked = true;
-        Toast.success('🔒 ¡Inventario bloqueado exitosamente según RN-02 y RN-03! Orden de Despacho #OD-2024-884 emitida a Almacén Lurín.');
+        Toast.success('🔒 ¡Inventario bloqueado exitosamente! Orden de Despacho #OD-2024-884 emitida a Almacén Lurín.');
         this.render();
     }
 

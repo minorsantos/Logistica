@@ -1,7 +1,7 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
  * js/modules/logistica.js - MÓDULO 4: Gestión Logística de Entregas y Recojos (CUS-04 / RF-21 a RF-28)
- * Implementa RN-05 (Registro de Entrega con responsable), Actas de Entrega/Recojo e Incidencias en Ruta.
+ * Registro de Entrega con responsable, Actas de Entrega/Recojo e Incidencias en Ruta.
  */
 
 class LogisticaModule {
@@ -90,7 +90,7 @@ class LogisticaModule {
                 <div class="section-card-header">
                     <div>
                         <h4 class="section-card-title">Manifiesto de Rutas de Despacho y Recojo</h4>
-                        <p class="section-card-subtitle">Seguimiento en tiempo real y cumplimiento de la regla RN-05</p>
+                        <p class="section-card-subtitle">Seguimiento en tiempo real y registro de recepción en locación</p>
                     </div>
                     <div class="filter-pills">
                         <button class="filter-pill ${this.statusFilter === 'todos' ? 'active' : ''}" onclick="LogisticaModule.filterStatus('todos')">Todos</button>
@@ -109,7 +109,7 @@ class LogisticaModule {
                                 <th>TRANSPORTE / CUADRILLA</th>
                                 <th>HORARIOS PROGRAMADOS</th>
                                 <th>ESTADO</th>
-                                <th>RECEPCIÓN (RN-05)</th>
+                                <th>RECEPCIÓN CONFORME</th>
                                 <th>ACCIONES</th>
                             </tr>
                         </thead>
@@ -211,7 +211,7 @@ class LogisticaModule {
                     <div class="action-btn-group">
                         ${d.estado !== 'Entregado' && d.estado !== 'Retornado' ? `
                             <button class="btn btn-xs btn-success" onclick="LogisticaModule.openConfirmDeliveryModal('${d.codigoRuta}')" title="Confirmar Entrega">
-                                ✓ Entregar (RN-05)
+                                ✓ Entregar
                             </button>
                         ` : ''}
                         ${d.estado === 'Entregado' ? `
@@ -241,7 +241,7 @@ class LogisticaModule {
         const formHtml = `
             <form onsubmit="LogisticaModule.confirmDelivery(event, '${codigoRuta}')">
                 <div class="alert-box-warning mb-3">
-                    <strong>Regla de Negocio RN-05:</strong> Cada entrega debe registrar obligatoriamente la fecha, hora exacta y datos del responsable de recepción en la locación.
+                    <strong>Protocolo de Entrega:</strong> Cada entrega debe registrar obligatoriamente la fecha, hora exacta y datos del responsable de recepción en la locación.
                 </div>
                 <div class="form-group">
                     <label>Ruta / Orden</label>
@@ -275,7 +275,7 @@ class LogisticaModule {
                     <textarea id="rn05-firma" class="form-control" rows="2" placeholder="Recepción conforme en sitio con verificación de cantidades y estado estético."></textarea>
                 </div>
                 <div class="modal-footer-btns mt-3">
-                    <button type="submit" class="btn btn-success btn-block">Confirmar Entrega y Emitir Acta (RN-05)</button>
+                    <button type="submit" class="btn btn-success btn-block">Confirmar Entrega y Emitir Acta</button>
                 </div>
             </form>
         `;
@@ -301,7 +301,7 @@ class LogisticaModule {
 
             StorageManager.set(STORAGE_KEYS.DESPACHOS, despachos);
             Modal.close();
-            Toast.success(`¡Entrega de ${ruta.codigoRuta} confirmada conforme a RN-05 a cargo de ${responsable}!`);
+            Toast.success(`¡Entrega de ${ruta.codigoRuta} confirmada a cargo de ${responsable}!`);
             this.render();
         }
     }
@@ -314,7 +314,7 @@ class LogisticaModule {
         const formHtml = `
             <form onsubmit="LogisticaModule.confirmPickup(event, '${codigoRuta}')">
                 <div class="alert-box-warning mb-3">
-                    <strong>Regla de Negocio RN-06:</strong> Todo artículo recolectado post-evento debe ingresar al sistema en estado <em>"En Revisión"</em> antes de volver a estar disponible.
+                    <strong>Protocolo de Recojo:</strong> Todo artículo recolectado post-evento debe ingresar al sistema en estado <em>"En Revisión"</em> antes de volver a estar disponible.
                 </div>
                 <p>¿Confirmar que la cuadrilla ha cargado y transportado el mobiliario de <strong>${ruta.cliente}</strong> de vuelta al Almacén Lurín?</p>
                 <div class="form-group">
@@ -342,7 +342,7 @@ class LogisticaModule {
             StorageManager.set(STORAGE_KEYS.DESPACHOS, despachos);
 
             Modal.close();
-            Toast.success(`¡Recojo registrado! Los artículos ingresaron al Almacén Lurín en estado 'En Revisión' (RN-06).`);
+            Toast.success(`¡Recojo registrado! Los artículos ingresaron al Almacén Lurín en estado 'En Revisión'.`);
             this.render();
         }
     }
@@ -447,7 +447,7 @@ class LogisticaModule {
                     <p><strong>Cliente:</strong> ${ruta.cliente}</p>
                     <p><strong>Locación:</strong> ${ruta.direccion}</p>
                     <p><strong>Transporte:</strong> ${ruta.conductor}</p>
-                    <p><strong>Responsable de Recepción (RN-05):</strong> ${ruta.responsableRecepcion || 'Pendiente'}</p>
+                    <p><strong>Responsable de Recepción:</strong> ${ruta.responsableRecepcion || 'Pendiente'}</p>
                     <p><strong>DNI Responsable:</strong> ${ruta.dniRecepcion || 'N/A'}</p>
                     <p><strong>Fecha/Hora Real de Entrega:</strong> ${ruta.horaEntregaReal || 'En tránsito'}</p>
                 </div>

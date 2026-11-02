@@ -232,10 +232,10 @@ class AppRouter {
                         <li onclick="Modal.close(); AppRouter.navigate('solicitudes');">+ Nueva Cotización & Solicitud (CUS-01)</li>
                         <li onclick="Modal.close(); AppRouter.navigate('reservas');">📅 Ver Calendario Gantt de Disponibilidad (CUS-02)</li>
                         <li onclick="Modal.close(); AppRouter.navigate('inventario');">📦 Consultar Existencias en Almacén Lurín (CUS-03)</li>
-                        <li onclick="Modal.close(); PagosModule.openRegisterPaymentModal();">💳 Registrar Cobro / Anticipo (RN-09)</li>
-                        <li onclick="Modal.close(); SolicitudesModule.openNewClientModal();">👤 Registrar Nuevo Cliente (RN-01)</li>
+                        <li onclick="Modal.close(); PagosModule.openRegisterPaymentModal();">💳 Registrar Cobro / Anticipo</li>
+                        <li onclick="Modal.close(); SolicitudesModule.openNewClientModal();">👤 Registrar Nuevo Cliente</li>
                         <li onclick="Modal.close(); LogisticaModule.openNewIncidenciaModal();">⚠️ Reportar Incidencia en Ruta</li>
-                        <li onclick="Modal.close(); MantenimientoModule.openQuickInspectionModal();">🔍 Inspección Técnica Pos-Recojo (RN-06)</li>
+                        <li onclick="Modal.close(); MantenimientoModule.openQuickInspectionModal();">🔍 Inspección Técnica Pos-Recojo</li>
                     </ul>
                 </div>
             </div>

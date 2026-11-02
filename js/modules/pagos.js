@@ -1,7 +1,7 @@
 /**
  * SISTEMA WEB PARA LA GESTIÓN LOGÍSTICA DE CASA MARSHALL
  * js/modules/pagos.js - MÓDULO 6: Gestión de Pagos y Comprobantes Fiscales (CUS-06 / RF-36 a RF-42)
- * Implementa RN-09 (Trazabilidad unívoca a Código de Reserva), simulación de Facturas/Boletas y validación de cobros.
+ * Trazabilidad unívoca a Código de Reserva, simulación de Facturas/Boletas y validación de cobros.
  */
 
 class PagosModule {
@@ -36,7 +36,7 @@ class PagosModule {
                     </div>
                     <div class="header-action-buttons">
                         <button class="btn btn-primary" onclick="PagosModule.openRegisterPaymentModal()">
-                            + Registrar Nuevo Cobro (RN-09)
+                            + Registrar Nuevo Cobro
                         </button>
                     </div>
                 </div>
@@ -47,8 +47,8 @@ class PagosModule {
                 <div class="kpi-metric-card">
                     <span class="kpi-label">Total Recaudado en Banco</span>
                     <div class="kpi-number-row">
-                        <span class="kpi-main-number">$${totalCobrado.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                        <span class="kpi-unit">USD</span>
+                        <span class="kpi-main-number">S/ ${totalCobrado.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</span>
+                        <span class="kpi-unit">PEN</span>
                     </div>
                     <div class="kpi-footnote text-success">● Conciliación bancaria BCP al día</div>
                 </div>
@@ -56,8 +56,8 @@ class PagosModule {
                 <div class="kpi-metric-card">
                     <span class="kpi-label">Anticipos 50% de Bloqueo</span>
                     <div class="kpi-number-row">
-                        <span class="kpi-main-number">$${totalAnticipos.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                        <span class="kpi-unit">USD</span>
+                        <span class="kpi-main-number">S/ ${totalAnticipos.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</span>
+                        <span class="kpi-unit">PEN</span>
                     </div>
                     <div class="kpi-footnote text-primary">● Garantizan bloqueo firme de flota</div>
                 </div>
@@ -65,8 +65,8 @@ class PagosModule {
                 <div class="kpi-metric-card">
                     <span class="kpi-label">Fianzas Retenidas por Taller</span>
                     <div class="kpi-number-row">
-                        <span class="kpi-main-number">$${totalFianzas.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-                        <span class="kpi-unit">USD</span>
+                        <span class="kpi-main-number">S/ ${totalFianzas.toLocaleString('es-PE', { minimumFractionDigits: 2 })}</span>
+                        <span class="kpi-unit">PEN</span>
                     </div>
                     <div class="kpi-footnote text-danger">● Descontadas por incidencias técnicas</div>
                 </div>
@@ -81,11 +81,11 @@ class PagosModule {
                 </div>
             </div>
 
-            <!-- Regla RN-09 Notificación -->
+            <!-- Trazabilidad Notificación -->
             <div class="alert-box-info mt-3">
                 <div class="alert-icon">💳</div>
                 <div class="alert-content">
-                    <strong>Regla de Negocio RN-09 (Trazabilidad de Pagos):</strong>
+                    <strong>Trazabilidad de Pagos:</strong>
                     Todo pago, depósito o retención debe estar obligatoriamente vinculado a un <strong>Código de Reserva unívoco</strong> 
                     para garantizar la auditoría cruzada con el inventario y la emisión del comprobante electrónico.
                 </div>
@@ -111,10 +111,10 @@ class PagosModule {
                         <thead>
                             <tr>
                                 <th>CÓDIGO PAGO</th>
-                                <th>RESERVA (RN-09)</th>
+                                <th>RESERVA ASOCIADA</th>
                                 <th>CLIENTE</th>
                                 <th>CONCEPTO</th>
-                                <th>MONTO (USD)</th>
+                                <th>MONTO (S/)</th>
                                 <th>OPERACIÓN BANCARIA</th>
                                 <th>COMPROBANTE</th>
                                 <th>ESTADO</th>
@@ -153,7 +153,7 @@ class PagosModule {
                     <div class="text-muted"><small>Método: ${p.metodo}</small></div>
                 </td>
                 <td>
-                    <strong class="text-success">$${(p.monto || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}</strong>
+                    <strong class="text-success">S/ ${(p.monto || 0).toLocaleString('es-PE', { minimumFractionDigits: 2 })}</strong>
                 </td>
                 <td>
                     <span class="badge-op-code">${p.operacionBancaria}</span>
@@ -187,12 +187,12 @@ class PagosModule {
         const formHtml = `
             <form onsubmit="PagosModule.savePayment(event)">
                 <div class="alert-box-warning mb-3">
-                    <strong>RN-09:</strong> Seleccione la reserva correspondiente a este abono. El pago se registrará con código único y comprobante electrónico.
+                    <strong>Información:</strong> Seleccione la reserva correspondiente a este abono. El pago se registrará con código único y comprobante electrónico.
                 </div>
 
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label>Código de Reserva Asociado (RN-09) *</label>
+                        <label>Código de Reserva Asociado *</label>
                         <select id="pay-reserva" class="form-control" required onchange="PagosModule.onReservaSelectChange(this.value)">
                             ${reservas.map(r => `<option value="${r.codigoReserva}">${r.codigoReserva} - ${r.clienteNombre} (${r.eventoNombre})</option>`).join('')}
                         </select>
@@ -210,7 +210,7 @@ class PagosModule {
 
                 <div class="form-grid-2">
                     <div class="form-group">
-                        <label>Monto a Registrar (USD) *</label>
+                        <label>Monto a Registrar (S/) *</label>
                         <input type="number" step="0.01" id="pay-monto" class="form-control" value="3200.00" required>
                     </div>
                     <div class="form-group">
@@ -240,12 +240,12 @@ class PagosModule {
                 </div>
 
                 <div class="modal-footer-btns mt-3">
-                    <button type="submit" class="btn btn-primary btn-block">Registrar Pago y Emitir Comprobante (RN-09)</button>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar Pago y Emitir Comprobante</button>
                 </div>
             </form>
         `;
 
-        Modal.open('Registrar Nuevo Pago / Cobro (RN-09)', formHtml);
+        Modal.open('Registrar Nuevo Pago / Cobro', formHtml);
     }
 
     static onReservaSelectChange(reservaCodigo) {
@@ -321,7 +321,7 @@ class PagosModule {
 
                 <div class="print-client-box mt-3">
                     <p><strong>Señor(es):</strong> ${p.clienteNombre}</p>
-                    <p><strong>Código de Reserva (RN-09):</strong> ${p.reservaCodigo}</p>
+                    <p><strong>Código de Reserva:</strong> ${p.reservaCodigo}</p>
                     <p><strong>Forma de Pago:</strong> ${p.metodo} • Operación: ${p.operacionBancaria}</p>
                     <p><strong>Validado por:</strong> ${p.verificadoPor || 'Valeria Mendoza (Jefa de Operaciones)'}</p>
                 </div>
@@ -332,23 +332,23 @@ class PagosModule {
                             <th>Cant.</th>
                             <th>Descripción / Concepto</th>
                             <th>Valor Unit.</th>
-                            <th>Importe USD</th>
+                            <th>Importe (S/)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>1</td>
                             <td>${p.tipoPago} correspondiente al servicio de alquiler para la reserva ${p.reservaCodigo}</td>
-                            <td>$${subtotal.toFixed(2)}</td>
-                            <td>$${subtotal.toFixed(2)}</td>
+                            <td>S/ ${subtotal.toFixed(2)}</td>
+                            <td>S/ ${subtotal.toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="print-totals-summary mt-3">
-                    <p>Op. Gravada: <strong>$${subtotal.toFixed(2)} USD</strong></p>
-                    <p>I.G.V. (18%): <strong>$${igv.toFixed(2)} USD</strong></p>
-                    <h3 class="print-grand-total">TOTAL PAGADO: $${p.monto.toFixed(2)} USD</h3>
+                    <p>Op. Gravada: <strong>S/ ${subtotal.toFixed(2)}</strong></p>
+                    <p>I.G.V. (18%): <strong>S/ ${igv.toFixed(2)}</strong></p>
+                    <h3 class="print-grand-total">TOTAL PAGADO: S/ ${p.monto.toFixed(2)}</h3>
                     <div class="stamp-verified">✓ CONCILIADO EN BANCO</div>
                 </div>
             </div>

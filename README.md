@@ -24,15 +24,15 @@ flowchart LR
 
 ---
 
-## 👥 2. Roles de Usuario y Permisos (RBAC - RN-07)
+## 👥 2. Roles de Usuario y Permisos (RBAC)
 
 El sistema incorpora control de acceso basado en roles con interfaz reactiva y adaptable:
 
 1. **Administrador (`AS-06`)**: Supervisión general, auditoría, KPIs comerciales y aprobación de órdenes.
 2. **Personal de Ventas (`AS-03`)**: Registro de solicitudes, cotizador dinámico y verificación de stock.
 3. **Personal de Almacén (`AS-04`)**: Control de existencias por nave/bahía, hojas de carga y solicitudes de abastecimiento.
-4. **Personal de Logística (`AS-05`)**: Planificación de rutas, asignación de cuadrillas y actas de recepción con DNI (**RN-05**).
-5. **Técnico de Mantenimiento (`AS-10`)**: Inspección pos-recojo (**RN-06**), fichas técnicas (#T), cálculo de fianza y liberación a stock (**RN-04**).
+4. **Personal de Logística (`AS-05`)**: Planificación de rutas, asignación de cuadrillas y actas de recepción con DNI.
+5. **Técnico de Mantenimiento (`AS-10`)**: Inspección pos-recojo, fichas técnicas (#T), cálculo de fianza y liberación a stock.
 6. **Cliente / Empresa Contratante (`AS-01/02`)**: Catálogo en línea, consulta de cotizaciones y comprobantes.
 7. **Courier / Empresa de Transporte (`AS-08/09`)**: Asignaciones de carga, confirmación de entregas y reporte de incidencias en ruta.
 
@@ -43,25 +43,25 @@ El sistema incorpora control de acceso basado en roles con interfaz reactiva y a
 | Módulo | Casos de Uso / RF | Descripción Principal |
 | :--- | :---: | :--- |
 | **Panel Ejecutivo** | `AS-06` | Dashboard con 4 KPIs comerciales, matriz de demanda mensual (Octubre 2024), alertas en tiempo real y trazabilidad. |
-| **Módulo 1: Solicitudes y Cotizaciones** | `CUS-01 / RF-01 a RF-07` | Wizard de 3 etapas, catálogo interactivo con fotos y cálculo reactivo en vivo (subtotal, transporte $650, garantía 20%, IGV 18%, total y anticipo 50%). |
+| **Módulo 1: Solicitudes y Cotizaciones** | `CUS-01 / RF-01 a RF-07` | Wizard de 3 etapas, catálogo interactivo con fotos y cálculo reactivo en vivo (subtotal, transporte S/ 650, garantía 20%, IGV 18%, total y anticipo 50%). |
 | **Módulo 2: Gestión de Reservas** | `CUS-02 / RF-08 a RF-13` | Matriz Gantt de ocupación (14 días), detección de sobredemanda crítica, 3 rutas de mitigación en 1 clic y emisión de orden de despacho. |
 | **Módulo 3: Control de Inventario** | `CUS-03 / RF-14 a RF-20` | 5 métricas de flota, tabla de existencias con barra multicolor por SKU, análisis Donut interactivo y órdenes a proveedores externos. |
-| **Módulo 4: Despacho y Rutas** | `CUS-04 / RF-21 a RF-28` | Monitoreo de rutas, acta de entrega conforme (**RN-05**), acta de recojo y bitácora de incidencias viales/climáticas. |
-| **Módulo 5: Revisión y Mantenimiento** | `CUS-05 / RF-29 a RF-35` | Inspección pos-recojo en cuarentena (**RN-06**), emisión de fichas (#T), aplicación de fianza retenida y liberación de stock (**RN-04**). |
-| **Módulo 6: Pagos y Comprobantes** | `CUS-06 / RF-36 a RF-42` | Trazabilidad obligatoria por reserva (**RN-09**), verificación de transferencias y simulador membretado de Factura/Boleta SUNAT. |
+| **Módulo 4: Despacho y Rutas** | `CUS-04 / RF-21 a RF-28` | Monitoreo de rutas, acta de entrega conforme, acta de recojo y bitácora de incidencias viales/climáticas. |
+| **Módulo 5: Revisión y Mantenimiento** | `CUS-05 / RF-29 a RF-35` | Inspección pos-recojo en cuarentena, emisión de fichas (#T), aplicación de fianza retenida y liberación de stock. |
+| **Módulo 6: Pagos y Comprobantes** | `CUS-06 / RF-36 a RF-42` | Trazabilidad obligatoria por reserva, verificación de transferencias y simulador membretado de Factura/Boleta SUNAT. |
 
 ---
 
-## ⚖️ 4. Reglas de Negocio Implementadas (RN)
+## ⚖️ 4. Reglas de Negocio Operativas
 
-- **RN-01 (Registro de Cliente)**: Validación mandatoria de registro previo de clientes antes de generar cotizaciones o reservas.
-- **RN-02 (Disponibilidad de Stock)**: Validación estricta por fecha para evitar sobreventas o duplicidades.
-- **RN-03 (Confirmación de Reserva)**: Una reserva solo se confirma y bloquea tras verificar el abono del anticipo (mínimo 50%).
-- **RN-04 (Control de Inventario)**: Toda salida, devolución, reparación o baja actualiza inmediatamente los contadores de stock.
-- **RN-05 (Registro de Entrega)**: Obligatoriedad de fecha, hora real y firma/DNI del responsable de recepción en locación.
-- **RN-06 (Revisión Pos-Recojo)**: Artículos retornados ingresan a estado *"En Revisión"* antes de volver a estar *"Disponibles"*.
-- **RN-07 (Acceso por Rol)**: Interfaz y menús adaptados dinámicamente según el rol autenticado.
-- **RN-09 (Trazabilidad de Pagos)**: Todo pago está asociado de manera unívoca a un Código de Reserva (#RES).
+- **Registro de Cliente**: Validación mandatoria de registro previo de clientes antes de generar cotizaciones o reservas.
+- **Disponibilidad de Stock**: Validación estricta por fecha para evitar sobreventas o duplicidades.
+- **Confirmación de Reserva**: Una reserva solo se confirma y bloquea tras verificar el abono del anticipo (mínimo 50%).
+- **Control de Inventario**: Toda salida, devolución, reparación o baja actualiza inmediatamente los contadores de stock.
+- **Registro de Entrega**: Obligatoriedad de fecha, hora real y firma/DNI del responsable de recepción en locación.
+- **Revisión Pos-Recojo**: Artículos retornados ingresan a estado *"En Revisión"* antes de volver a estar *"Disponibles"*.
+- **Acceso por Rol**: Interfaz y menús adaptados dinámicamente según el rol autenticado.
+- **Trazabilidad de Pagos**: Todo pago está asociado de manera unívoca a un Código de Reserva (#RES).
 
 ---
 
